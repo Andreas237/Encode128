@@ -20,6 +20,10 @@ int main(void){
 
     std::cout << encoded << std::endl;
 
+
+    std::string key = "AndreasSlovacek11";
+    std::cout << sizeof(key) << std::endl;
+
     return 0;
 
 
