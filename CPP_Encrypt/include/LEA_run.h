@@ -50,8 +50,8 @@ EncryptionParameters encryptLEA(std::string plain){
 
     try
     {
-        std::cout << "Encrypt LEA" << std::endl;
-       std::cout << "plain text: " << plain << std::endl;
+       // std::cout << "Encrypt LEA" << std::endl;
+       // std::cout << "plain text: " << plain << std::endl;
 
        CBC_Mode< LEA >::Encryption e;
        e.SetKeyWithIV(key, key.size(), iv);
@@ -64,7 +64,7 @@ EncryptionParameters encryptLEA(std::string plain){
              new StringSink(cipher)
           ) // StreamTransformationFilter
        ); // StringSource
-       Print("cipher text after one round", cipher);
+       // Print("cipher text after one round", cipher);
 
    }//end try
     catch(const CryptoPP::Exception& e){
@@ -108,7 +108,7 @@ std::string decryptLEA(const EncryptionParameters &enp){
 
         try
         {
-            std::cout << "Decrypt LEA" << std::endl;
+           // std::cout << "Decrypt LEA" << std::endl;
            CBC_Mode< LEA >::Decryption d;
            d.SetKeyWithIV(key, key.size(), iv);
 
@@ -120,7 +120,7 @@ std::string decryptLEA(const EncryptionParameters &enp){
               ) // StreamTransformationFilter
            ); // StringSource
 
-           std::cout << "recovered text after one decrypt: " << recovered << std::endl;
+           // std::cout << "recovered text after one decrypt: " << recovered << std::endl;
         }
         catch(const CryptoPP::Exception& e){
            std::cerr << e.what() << std::endl;

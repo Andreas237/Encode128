@@ -30,6 +30,7 @@ std::string decryptAES(const EncryptionParameters &enp);
 
 
 // Encrypt AES as in the first half of this https://cryptopp.com/wiki/CBC
+// StreamTransformationFilter has a
 EncryptionParameters encryptAES(std::string plain){
 
     using namespace CryptoPP;
@@ -46,8 +47,9 @@ EncryptionParameters encryptAES(std::string plain){
 
     try
     {
-        std::cout << "Encrypt AES" << std::endl;
-        std::cout << "plain text: " << plain << std::endl;
+
+        //std::cout << "Encrypt AES" << std::endl;
+        //std::cout << "plain text: " << plain << std::endl;
 
         CBC_Mode< AES >::Encryption e;
         e.SetKeyWithIV( key, key.size(), iv );
@@ -65,6 +67,13 @@ EncryptionParameters encryptAES(std::string plain){
                 new StringSink( cipher )
             ) // StreamTransformationFilter
         ); // StringSource
+
+
+        // Attempt to encrypt a second round.
+        // ERROR: incorrect padding.  First round padded, so this should work....
+        // https://cryptopp.com/wiki/Advanced_Encryption_Standard#ECB_and_CBC_mode_remarks
+        // StringSource(cipher, true, new StreamTransformationFilter(e, new StringSink(cipher), CryptoPP::BlockPaddingSchemeDef::NO_PADDING));
+
     }
     catch( const CryptoPP::Exception& e )
     {
@@ -105,7 +114,6 @@ std::string decryptAES(const EncryptionParameters &enp){
 
         try
         {
-            std::cout << "Decrypt AES" << std::endl;
            CBC_Mode< AES >::Decryption d;
            d.SetKeyWithIV(key, key.size(), iv);
 
@@ -116,8 +124,7 @@ std::string decryptAES(const EncryptionParameters &enp){
                  new StringSink(recovered)
               ) // StreamTransformationFilter
            ); // StringSource
-
-           std::cout << "recovered text after one decrypt: " << recovered << std::endl;
+           // std::cout << "recovered text after one decrypt: " << recovered << std::endl;
         }
         catch(const CryptoPP::Exception& e){
            std::cerr << e.what() << std::endl;
