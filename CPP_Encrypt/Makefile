@@ -4,7 +4,7 @@
 IDIR =include
 ODIR=object
 CC=g++
-CFLAGS=-I$(IDIR) -l cryptopp
+CFLAGS=-L /usr/include/cryptopp -I$(IDIR) -l cryptopp
 
 
 _DEPS = encryption_parameters.h LEA_run.h AES_run.h
