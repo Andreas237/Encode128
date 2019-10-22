@@ -2,10 +2,11 @@
 # http://www.cs.colby.edu/maxwell/courses/tutorials/maketutor/
 
 IDIR =include
+ODIR=object
 CC=clang
 CFLAGS=-I$(IDIR)
 
-ODIR=object
+
 
 _DEPS = mycrypt.h
 DEPS = $(patsubst %,$(IDIR)/%,$(_DEPS))
