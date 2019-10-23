@@ -41,4 +41,4 @@ Benchmark: Benchmark.cpp
 .PHONY: clean
 
 clean:
-	rm -f $(ODIR)/*.o *~ core $(INCDIR)/*~ Cryptest
+	rm -f $(ODIR)/*.o *~ core $(INCDIR)/*~ Cryptest Benchmark
