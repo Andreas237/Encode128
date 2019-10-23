@@ -4,7 +4,17 @@
 IDIR =include
 ODIR=object
 CC=g++
-CFLAGS=-L /usr/include/cryptopp -I$(IDIR) -l cryptopp
+
+
+
+# Detect whether Mac due to Crypto++ location
+UNAME_S := $(shell uname -s)
+ifeq ($(UNAME_S),Linux)
+   CFLAGS=-L /usr/include/cryptopp -I$(IDIR) -l cryptopp
+endif
+ifeq ($(UNAME_S),Darwin)
+   CFLAGS=-I$(IDIR) -l cryptopp
+endif
 
 
 _DEPS = encryption_parameters.h LEA_run.h AES_run.h
@@ -14,12 +24,15 @@ _OBJ = Cryptest.o
 OBJ = $(patsubst %,$(ODIR)/%,$(_OBJ))
 
 
-all: Cryptest
+all: Cryptest Benchmark
 
 $(ODIR)/%.o: %.c $(DEPS)
 	$(CC) -c -o $@ $< $(CFLAGS)
 
 Cryptest: Crypto_Tests.cpp
+	$(CC) -o $@ $^ $(CFLAGS) $(LIBS)
+
+Benchmark: Benchmark.cpp
 	$(CC) -o $@ $^ $(CFLAGS) $(LIBS)
 
 
