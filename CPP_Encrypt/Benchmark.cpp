@@ -201,9 +201,9 @@ void benchmarkLea(std::string){
 
         const double bytes = static_cast<double>(BUF_SIZE) * blocks;
         const double ghz = cpuFreq / 1000 / 1000 / 1000;
-        const double mbs = bytes / elapsedTimeInSeconds / 1000 / 1000;
+        const double mbs = bytes / elapsedTimeInSeconds / 1024 / 1024;
         const double cpb = elapsedTimeInSeconds * cpuFreq / bytes;
-        const double tpc = cpb * mbs / 1000 / 1000;
+        const double tpc = cpb * mbs / 1024 / 1024;
 
         std::cout << cipher.AlgorithmName() << " benchmarks..." << std::endl;
         std::cout << "  " << ghz << " GHz cpu frequency"  << std::endl;
