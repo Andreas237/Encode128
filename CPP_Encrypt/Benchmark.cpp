@@ -126,14 +126,14 @@ void benchmarkAes(std::string plain){
 
     const double bytes = static_cast<double>(BUF_SIZE) * blocks;
     const double ghz = cpuFreq / 1000 / 1000 / 1000;
-    const double mbs = bytes / elapsedTimeInSeconds / 1000 / 1000;
+    const double mbs = bytes / elapsedTimeInSeconds / 1024 / 1024;
     const double cpb = elapsedTimeInSeconds * cpuFreq / bytes;
-    const double tpc = cpb * mbs / 1000 / 1000;
+    const double tpc = cpb * mbs / 1024 / 1024;
 
     std::cout << cipher.AlgorithmName() << " benchmarks..." << std::endl;
     std::cout << "  " << ghz << " GHz cpu frequency"  << std::endl;
     std::cout << "  " << cpb << " cycles per byte (cpb)" << std::endl;
-    std::cout << "  " << mbs << " throughput MiB per second (MiB)" << std::endl;
+    std::cout << "  " << mbs << " throughput MB per second (MB)" << std::endl;
     std::cout << "  " << tpc << " execution time for one cycle (seconds)" << std::endl;
 
     // std::cout << "  " << elapsedTimeInSeconds << " seconds passed" << std::endl;

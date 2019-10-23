@@ -31,8 +31,8 @@ int main(int argc, char* argv[]) {
     recovered.append(decryptLEA(enp));
     */
 
-
-    // runAES_timed(plain);
+    // run each algorithm for two minutes to allow time to record
+//    runAES_timed(plain);
 
 
     runLEA_timed(plain);
