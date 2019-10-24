@@ -280,7 +280,7 @@ void benchmarkNaive(std::string plain){
         const double ghz = cpuFreq / 1000 / 1000 / 1000;
          // size of id * number of times processed / time / (1MB/1000^2 B)
         const double mbs = bytesProcessed / elapsedTimeInSeconds / 1024 / 1024;
-        const double cpb = elapsedTimeInSeconds * cpuFreq / (16 * count);
+        const double cpb = elapsedTimeInSeconds * cpuFreq / bytesProcessed;
         const double tpc = cpb * mbs / 1024 / 1024;
 
 
