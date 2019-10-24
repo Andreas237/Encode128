@@ -3,6 +3,7 @@
 #include <cstring>		// compare argv[1]
 #include "LEA_run.h"
 #include "AES_run.h"
+#include "naive.h"
 
 
 
@@ -39,7 +40,7 @@ int main(int argc, char* argv[]) {
    // runAES_timed(plain);
 
     // Run the given algorithm, or a loop for the baseline
-    if( !strcmp(argv[1],lea)) 
+    if( !strcmp(argv[1],lea))
 	runLEA(plain);
     else if( !strcmp(argv[1], aes))
 	runAES(plain);
@@ -96,45 +97,6 @@ void runAES(std::string plain){
 
 
 
-// Run AES encryption until keyboard interrupt so that power can be measured on
-// the J7-C USB.
-// Benchmark bytes https://cryptopp.com/wiki/Benchmarks#Sample_Program
-void runAES_timed(std::string plain){
-    std::cout << "Running timed AES" << std::endl;
-    const double runTimeInSeconds = 60*2;       // two minutes
-    double elapsedTimeInSeconds;
-    unsigned long i=0, blocks=1;
-
-    CryptoPP::ThreadUserTimer timer;
-    timer.StartTimer();
-
-    EncryptionParameters  enp;
-    do{
-            enp = encryptAES(plain);
-            elapsedTimeInSeconds = timer.ElapsedTimeAsDouble();
-    }while(elapsedTimeInSeconds < runTimeInSeconds);
-
-    std::cout << "Ran AES for " << runTimeInSeconds << " seconds "<< std::endl;
-}//end void runAES(std::string plain)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // Run LEA encryption until keyboard interrupt so that power can be measured on
 // the J7-C USB.
 void runLEA(std::string plain){
@@ -163,71 +125,13 @@ void runLEA(std::string plain){
 
 
 
-// Run LEA encryption until keyboard interrupt so that power can be measured on
-// the J7-C USB.
-// Benchmark bytes https://cryptopp.com/wiki/Benchmarks#Sample_Program
-void runLEA_timed(std::string plain){
-    std::cout << "Running timed LEA" << std::endl;
-    const double runTimeInSeconds = 60*2;       // two minutes
-    double elapsedTimeInSeconds;
-    unsigned long i=0, blocks=1;
-
-    CryptoPP::ThreadUserTimer timer;
-    timer.StartTimer();
-
-    EncryptionParameters  enp;
-    do{
-            enp = encryptLEA(plain);
-            elapsedTimeInSeconds = timer.ElapsedTimeAsDouble();
-    }while(elapsedTimeInSeconds < runTimeInSeconds);
-
-    std::cout << "Ran LEA for " << runTimeInSeconds << " seconds "<< std::endl;
-}//end void runLEA(std::string plain)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // In a naive scheme the ID is updated at every iteration
 void runNaive(std::string plain){
 	std::cout << "Runnng Naive.  CTRL+C to end." << std::endl;
-	// no key or value in this scheme
-	CryptoPP::SecByteBlock k;
-	CryptoPP::SecByteBlock iv;
-	
-	int plainLen = plain.size();
-	
 
-	std::string const perm = "1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    	int permLen = perm.size();
-	
-	int test = 0;
+    EncryptionParameters  enp;
+
 	do{
-		
-		    // For every character of the input string
-    		for(int currentPos = 0; currentPos < plainLen; currentPos++){
-        		int currentPerm = perm.find(plain[currentPos]);
-        		// increment that character one full cycle
-        		for(int inc = 0; inc < permLen; inc++){
-            			//std::cout << "before: " << plain;
-            			plain[currentPos] = perm[   (currentPerm + inc) % permLen ];
-            			//std::cout << "\tafter: " << plain << std::endl;
-				EncryptionParameters(k,iv,plain);
-			}//for(int inc = 0; inc < permLen; inc++)
-    		}// end for(int currentPos = 0; currentPos < permLen; currentPos++)
+        enp = encryptNaive(plain);
 	}while(1);
 }// end void runNaive

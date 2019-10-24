@@ -10,14 +10,14 @@ CC=g++
 # Detect whether Mac due to Crypto++ location
 UNAME_S := $(shell uname -s)
 ifeq ($(UNAME_S),Linux)
-   CFLAGS=-L /usr/include/cryptopp -I$(IDIR) -l cryptopp
+   CFLAGS=-L /usr/include/cryptopp -I$(IDIR) -l cryptopp -Wc++11-extensions
 endif
 ifeq ($(UNAME_S),Darwin)
-   CFLAGS=-I$(IDIR) -l cryptopp
+   CFLAGS=-I$(IDIR) -l cryptopp -Wc++11-extensions
 endif
 
 
-_DEPS = encryption_parameters.h LEA_run.h AES_run.h
+_DEPS = encryption_parameters.h LEA_run.h AES_run.h naive.h
 DEPS = $(patsubst %,$(IDIR)/%,$(_DEPS))
 
 _OBJ = Cryptest.o
