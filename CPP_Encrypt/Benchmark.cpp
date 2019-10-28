@@ -113,12 +113,13 @@ void benchmarkAes(std::string plain){
         unsigned long i=0, blocks=1;
 
 
-            auto timeBegin = std::chrono::high_resolution_clock::now();
+
 
             ////////////////////////////////////////////////////////////////////////////
             // Metrics for many rounds
             ////////////////////////////////////////////////////////////////////////////
             int count = 0;
+            auto timeBegin = std::chrono::high_resolution_clock::now();
             do
             {
                 blocks *= 2;
@@ -126,9 +127,9 @@ void benchmarkAes(std::string plain){
                     cipher.ProcessString(buf, BUF_SIZE);
             }
             while (rounds > count++);
-
-
             auto timeEnd = std::chrono::high_resolution_clock::now();
+
+
             const std::chrono::duration<double> time_span = std::chrono::duration_cast<std::chrono::duration<double> >(timeEnd - timeBegin);
             const double elapsedTimeInSeconds = time_span.count();
 
@@ -138,6 +139,7 @@ void benchmarkAes(std::string plain){
             const double mbs = bytes / elapsedTimeInSeconds / 1024 / 1024;
             const double cpb = elapsedTimeInSeconds * cpuFreq / bytes;
             const double tpc = cpb * mbs / 1024 / 1024;
+            const double tpe = elapsedTimeInSeconds  / count;          // time per round of encryption
 
             std::cout << cipher.AlgorithmName() << " benchmarks..." << std::endl;
             std::cout << "  " << ghz << " GHz cpu frequency"  << std::endl;
@@ -146,6 +148,7 @@ void benchmarkAes(std::string plain){
             std::cout << "  " << tpc << " execution time for one cycle (seconds)" << std::endl;
             std::cout << "  " << elapsedTimeInSeconds << " seconds passed" << std::endl;
             std::cout << "  " << (word64) bytes << " bytes processed" << std::endl;
+            std::cout << "  " << tpe << " seconds per encryption" << std::endl;
 
 
 }// end void benchmarkAes(std::string plain)
@@ -190,12 +193,13 @@ void benchmarkLea(std::string){
         unsigned long i=0, blocks=1;
 
 
-        auto timeBegin = std::chrono::high_resolution_clock::now();
+
 
         ////////////////////////////////////////////////////////////////////////////
         // Metrics for many rounds
         ////////////////////////////////////////////////////////////////////////////
         int count = 0;
+        auto timeBegin = std::chrono::high_resolution_clock::now();
         do
         {
             blocks *= 2;
@@ -203,9 +207,9 @@ void benchmarkLea(std::string){
                 cipher.ProcessString(buf, BUF_SIZE);
         }
         while (rounds > count++);
-
-
         auto timeEnd = std::chrono::high_resolution_clock::now();
+
+
         const std::chrono::duration<double> time_span = std::chrono::duration_cast<std::chrono::duration<double> >(timeEnd - timeBegin);
         const double elapsedTimeInSeconds = time_span.count();
 
@@ -215,6 +219,7 @@ void benchmarkLea(std::string){
         const double mbs = bytes / elapsedTimeInSeconds / 1024 / 1024;
         const double cpb = elapsedTimeInSeconds * cpuFreq / bytes;
         const double tpc = cpb * mbs / 1024 / 1024;
+        const double tpe = elapsedTimeInSeconds  / count;          // time per round of encryption
 
         std::cout << cipher.AlgorithmName() << " benchmarks..." << std::endl;
         std::cout << "  " << ghz << " GHz cpu frequency"  << std::endl;
@@ -223,6 +228,7 @@ void benchmarkLea(std::string){
         std::cout << "  " << tpc << " execution time for one cycle (seconds)" << std::endl;
         std::cout << "  " << elapsedTimeInSeconds << " seconds passed" << std::endl;
         std::cout << "  " << (word64) bytes << " bytes processed" << std::endl;
+        std::cout << "  " << tpe << " seconds per encryption" << std::endl;
 
 
 }// end void benchmarkLea(std::string)
@@ -264,24 +270,24 @@ void benchmarkNaive(std::string plain){
         int count = 0;
         int bytesProcessed = 0;
         int bytesize = 16;
+
+
         auto t1 = std::chrono::high_resolution_clock::now();
-
-
         do {
             bytesProcessed += bytesize;
             enp = encryptNaive(enp.getCipherText());
         } while(rounds*1000 > count++);
-
         auto t2 = std::chrono::high_resolution_clock::now();
+
 
         const std::chrono::duration<double> time_span = std::chrono::duration_cast<std::chrono::duration<double> >(t2 - t1);
         const double elapsedTimeInSeconds = time_span.count();
-        //const double cyclesPerByte =
         const double ghz = cpuFreq / 1000 / 1000 / 1000;
          // size of id * number of times processed / time / (1MB/1000^2 B)
         const double mbs = bytesProcessed / elapsedTimeInSeconds / 1024 / 1024;
         const double cpb = elapsedTimeInSeconds * cpuFreq / bytesProcessed;
         const double tpc = cpb * mbs / 1024 / 1024;
+        const double tpe = elapsedTimeInSeconds  / count;          // time per round of encryption
 
 
         std::cout << "Naive" << " benchmarks..." << std::endl;
@@ -291,5 +297,6 @@ void benchmarkNaive(std::string plain){
         std::cout << "  " << tpc << " execution time for one cycle (seconds)" << std::endl;
         std::cout << "  " << elapsedTimeInSeconds << " elapsed time (seconds)" << std::endl;
         std::cout << "  " << bytesProcessed << " bytes processed" << std::endl;
+        std::cout << "  " << tpe << " seconds per encryption" << std::endl;
 
 }// end void benchmarkLea(std::string)
