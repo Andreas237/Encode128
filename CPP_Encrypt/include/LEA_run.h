@@ -31,7 +31,7 @@ void Print(const std::string&, const std::string&);
 
 
 
-// Moved from Crypto_Tests.cpp
+// Use Crypto++ guide to encrypt just like AES https://cryptopp.com/wiki/CBC
 EncryptionParameters encryptLEA(std::string plain){
 
     using namespace CryptoPP;

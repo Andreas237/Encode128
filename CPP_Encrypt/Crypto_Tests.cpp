@@ -1,8 +1,9 @@
 #include <iostream>
 #include <cryptopp/hrtimer.h>
 #include <cstring>		// compare argv[1]
-#include "LEA_run.h"
 #include "AES_run.h"
+#include "LEA_run.h"
+#include "LFSR_run.h"
 #include "naive.h"
 
 
@@ -11,6 +12,7 @@ void runAES(std::string);
 void runAES_timed(std::string);
 void runLEA(std::string);
 void runLEA_timed(std::string);
+void runLFSR(std::string);
 void runNaive(std::string);
 
 /*
@@ -25,6 +27,7 @@ int main(int argc, char* argv[]) {
 
     char aes[] = "AES";
     char lea[] = "LEA";
+    char lfsr[] = "LFSR";
     char naive[] = "naive";
     std::string plain = "02AFE3Du";
 
@@ -40,12 +43,14 @@ int main(int argc, char* argv[]) {
    // runAES_timed(plain);
 
     // Run the given algorithm, or a loop for the baseline
-    if( !strcmp(argv[1],lea))
-	runLEA(plain);
-    else if( !strcmp(argv[1], aes))
-	runAES(plain);
-    else if( !strcmp(argv[1], naive))
-	runNaive(plain);
+    if(!strcmp(argv[1], aes))
+	   runAES(plain);
+    else if(!strcmp(argv[1],lea))
+	   runLEA(plain);
+    else if(!strcmp(argv[1], lfsr))
+       runLFSR(plain);
+    else if(!strcmp(argv[1], naive))
+	   runNaive(plain);
     else
     	return 1;
 
@@ -105,6 +110,37 @@ void runLEA(std::string plain){
     do{
             enp = encryptLEA(plain);
     }while(1);
+}//end void runLEA(std::string plain)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// Run LEA encryption until keyboard interrupt so that power can be measured on
+// the J7-C USB.
+void runLFSR(std::string plain){
+    std::cout << "Running LFSR. CTRL+C to end." << std::endl;
+    EncryptionParameters  enp;
+    int counter = 0;
+    do{
+            enp = encryptLFSR16(plain);
+            std::cout << "Round:" << counter << "\tCipherText:" << enp.getCipherText() << std::endl;
+            counter++;
+    }while(counter<=2);
 }//end void runLEA(std::string plain)
 
 

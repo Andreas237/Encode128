@@ -23,7 +23,7 @@
 // plain: plaintext to be incremented
 // current: current letter to be incrememented
 void padder(std::string &plain){
-    while(plain.size() < 16)
+    while(sizeof(plain) < 16)
         plain.append("0");
 } //end void mapper(const std::string &alphabet, std::string &plain, int current)
 

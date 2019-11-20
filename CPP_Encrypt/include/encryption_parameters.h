@@ -37,9 +37,9 @@ class EncryptionParameters {
         CryptoPP::SecByteBlock getKey(void) const { return *k;}
         void setKey(const CryptoPP::SecByteBlock &inK){ k = new CryptoPP::SecByteBlock(inK);}
 
+
         CryptoPP::SecByteBlock getIv(void) const { return *iv;}
         void setIv(const CryptoPP::SecByteBlock &inIv){ iv = new CryptoPP::SecByteBlock(inIv);}
-
 
 
 };//end class EncryptionParameters
