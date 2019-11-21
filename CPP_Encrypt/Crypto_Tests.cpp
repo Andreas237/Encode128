@@ -14,6 +14,7 @@ void runLEA(std::string);
 void runLEA_timed(std::string);
 void runLFSR(std::string);
 void runNaive(std::string);
+int TestByteOrder(void);
 
 /*
         About: run the AES encryption on the same block for a set amount of time.
@@ -30,6 +31,7 @@ int main(int argc, char* argv[]) {
     char lfsr[] = "LFSR";
     char naive[] = "naive";
     std::string plain = "02AFE3Du";
+    std::string plainD = "12345678";
 
 
     /* encrypt and recover
@@ -39,8 +41,13 @@ int main(int argc, char* argv[]) {
     recovered.append(decryptLEA(enp));
     */
 
+    // If TestByteOrder() is 1 then system is Little Endian, else Big Endian
+    int r = TestByteOrder();
+    std::string system_type = r == 1 ? "Little Endian" : "Big Endian";
+     std::cout << "System type:  " << system_type << std::endl;
+
     // run each algorithm for two minutes to allow time to record
-   // runAES_timed(plain);
+    // runAES_timed(plain);
 
     // Run the given algorithm, or a loop for the baseline
     if(!strcmp(argv[1], aes))
@@ -171,3 +178,28 @@ void runNaive(std::string plain){
         enp = encryptNaive(plain);
 	}while(1);
 }// end void runNaive
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// Big endian versus little endian test
+int TestByteOrder(void) {
+        short int word = 0x0001;
+        char *b = (char *)&word;
+        return (b[0] ? LITTLE_ENDIAN : BIG_ENDIAN);
+}

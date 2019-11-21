@@ -26,6 +26,7 @@ The `Makefile` in this project allowed me to learn about compiling for target
 operating systems rather than with generic commands.  
 The `-l` option is finally clear: link to some library!
 The `-L` option allows you to add an additional location for the linker to look for libraries.
+There is a way to [view hex](http://www.cplusplus.com/forum/windows/51591/) in C++!
 
 
 ### Open Source Libraries
