@@ -10,7 +10,7 @@ CC=g++
 # Detect whether Mac due to Crypto++ location
 UNAME_S := $(shell uname -s)
 ifeq ($(UNAME_S),Linux)
-   CFLAGS=-L /usr/include/cryptopp -I$(IDIR) -l cryptopp -Wc++11-extensions
+   CFLAGS=-L /usr/include/cryptopp -I$(IDIR) -l cryptopp -std=c++11
 endif
 ifeq ($(UNAME_S),Darwin)
    CFLAGS=-I$(IDIR) -l cryptopp -Wc++11-extensions
