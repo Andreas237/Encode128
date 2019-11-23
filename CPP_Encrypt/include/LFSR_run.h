@@ -11,13 +11,10 @@
 
 
 
-EncryptionParameters encryptLFSR16(std::string&);
-EncryptionParameters encryptLFSR64(std::string);
-EncryptionParameters encryptLFSR128(std::string);
+void encryptLFSR(int&);
 void lfsr64(int&);
+void lfsr128(int&);
 void padder(std::string&,int);
-// Sizes used for padding the input in bits to corresponding bytes
-enum lfsr_size {size16b=2, size64b=8, size128b=16};
 
 
 
@@ -73,16 +70,14 @@ void padder(std::string &plain, int size){
             Perform the shift and XOR on the input integer
             return  EncryptionParameters of the
 */
-EncryptionParameters encryptLFSR16(std::string &plain){
-
+// int encryptLFSR(int hexint){ operating on a single number until it's needed
+void encryptLFSR(int & hexint){
     // empty since naive doesn't require these
     CryptoPP::SecByteBlock key, iv;
 
-    // Convert hex-string to corresponding integer
-    int hexint = std::stoi(plain,0,16);
-    int bit;
+
     std::cout << "Int before rotation: " << std::hex << hexint;
-    lfsr64(hexint);
+    lfsr128(hexint);
     std::cout << "\tInt after rotation: " << std::hex << hexint << std::endl;
 
 
@@ -98,7 +93,7 @@ EncryptionParameters encryptLFSR16(std::string &plain){
 
 
 
-    return EncryptionParameters(key,iv,std::to_string(hexint));
+    // return EncryptionParameters(key,iv,std::to_string(hexint));
 }//end EncryptionParameters encryptLFSR16(std::string plain)
 
 
@@ -120,16 +115,51 @@ EncryptionParameters encryptLFSR16(std::string &plain){
 
 
 /**
-    function: void lfsr64(int& input)
-    input:
-    output:
-    purpose:
-    method:
-
+    function:   void lfsr64(int& input)
+    input:      int input to shift and XOR
+    output:     void
+    purpose:    Perform bit shifting and XOR to accomplish one round of LFSR on
+                a 64-bit number
+    method:     Given the big-endian systems we're on the MSB is located in the
+                byte with the lowest address. The taps are given in: https://www.xilinx.com/support/documentation/application_notes/xapp052.pdf
 */
 void lfsr64(int& input){
 
-    // 64 bit LFSR
     int bit = ((input>>0) ^ (input>>1) ^ (input>>3) ^ (input>>4) );
     input = (input >> 1) | (bit << 63);
+
 }//void lfsr16(int& input)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/**
+    function:   void lfsr64(int& input)
+    input:      int input to shift and XOR
+    output:     void
+    purpose:    Perform bit shifting and XOR to accomplish one round of LFSR on
+                a 64-bit number
+    method:     Given the big-endian systems we're on the MSB is located in the
+                byte with the lowest address. The taps are given in: https://www.xilinx.com/support/documentation/application_notes/xapp052.pdf
+*/
+void lfsr128(int& input){
+
+    int bit = ((input>>0) ^ (input>>2) ^ (input>>27) ^ (input>>29) );
+    input = (input >> 1) | (bit << 127);
+
+}//void lfsr128(int& input)

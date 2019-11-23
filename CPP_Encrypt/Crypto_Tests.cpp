@@ -137,16 +137,25 @@ void runLEA(std::string plain){
 
 
 
-// Run LEA encryption until keyboard interrupt so that power can be measured on
+// Run LFSR encryption until keyboard interrupt so that power can be measured on
 // the J7-C USB.
+// Other encryptions return a string, LFSR is designed to return bits, therefore
+// will run on bits and TODO: return EncryptionParameters
 void runLFSR(std::string plain){
     std::cout << "Running LFSR. CTRL+C to end." << std::endl;
     EncryptionParameters  enp;
     int counter = 0;
+    // Convert hex-string to corresponding integer
+    int hexint = std::stoi(plain,0,16);
     do{
-            enp = encryptLFSR16(plain);
-            std::cout << "Round:" << counter << "\tCipherText:" << enp.getCipherText() << std::endl;
+        /*
+            enp = encryptLFSR(hexint);
+            hexint = enp.getCipherText();
+        */
+            encryptLFSR(hexint);
+            std::cout << "Round:" << counter << "\tCipherText:" << hexint << std::endl;
             counter++;
+
     }while(counter<=2);
 }//end void runLEA(std::string plain)
 
