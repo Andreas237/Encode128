@@ -1,7 +1,7 @@
 # Encode128
 
 ## Purpose
-This project was used to take measurements of encryption algorithms AES and LEA for the purpose of encrypting the TPMS ID.
+This project was used to benchmark encryption algorithms AES and LEA for the purpose of encrypting the TPMS ID.
 Windows systems were not tested on, and will not work due to the configuration of the `Makefile`.
 
 Install the Crypto++ library [here](https://cryptopp.com/) before use.
@@ -20,6 +20,12 @@ Linear Feedback Shift Register is an important stream cipher, which was not impl
 
 
 ## What I Learned
+
+### Benchmarking
+Crypto++ comes with a number of benchmarking functions.  Since I had to implement
+LFSR and the naive scheme on my own I copied their method for each of the algorithms.
+This was used because their code may have given an advantage to their libraries.
+
 
 ### `Makefile`
 The `Makefile` in this project allowed me to learn about compiling for target
